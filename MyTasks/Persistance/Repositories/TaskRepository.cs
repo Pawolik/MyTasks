@@ -59,9 +59,10 @@ namespace MyTasks.Persistance.Repositories
             _context.SaveChanges();
         }
 
-        internal void Delete(int id, string userId)
+        public void Delete(int id, string userId)
         {
-            var taskToDelete = _context.Tasks.Single(x => x.Id == x.Id && x.UserId == userId);
+            var taskToDelete = _context.Tasks
+                .Single(x => x.Id == id && x.UserId == userId);
 
             _context.Tasks.Remove(taskToDelete);
 
@@ -70,7 +71,8 @@ namespace MyTasks.Persistance.Repositories
 
         public void Finish(int id, string userId)
         {
-            var taskToUpdate = _context.Tasks.Single(x => x.Id == x.Id && x.UserId == userId);
+            var taskToUpdate = _context.Tasks
+               .Single(x => x.Id == id && x.UserId == userId);
 
             taskToUpdate.IsExecuted = true;
 
