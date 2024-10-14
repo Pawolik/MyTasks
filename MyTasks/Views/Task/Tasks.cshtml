@@ -1,0 +1,113 @@
+﻿@model MyTasks.Core.ViewModels.TasksViewModel
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<h1 class="mb-3">Moje Zadania</h1>
+
+
+<form class="row gy-2 gx-3 align-items-center" id="filterForm">
+    <div class="col-auto">
+        <input asp-for="FilterTasks.Title" class="form-control mb-2" placeholder="Tytuł" />
+    </div>
+    <div class="col-auto">
+        @Html.DropDownListFor(x => x.FilterTasks.CategoryId, new SelectList(Model.Categories, "Id", "Name"), "-- wybierz kategorię --", new { @class = "form-control mb-2" })
+    </div>
+    <div class="col-auto">
+        <div class="form-check">
+            @Html.CheckBoxFor(x => x.FilterTasks.IsExecuted, new { @class = "form-check-laber" })
+            @Html.LabelFor(x => x.FilterTasks.IsExecuted)
+        </div>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+    </div>
+</form>
+
+<div>
+    @await Html.PartialAsync("_TasksTable.cshtml", Model.Tasks)
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#filterForm').submit(function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Tasks", "Task")",
+                    data: $(this).serialize(),
+                    success: function (data) {
+                        $('#tasksTable').html(data);
+                    },
+                    error: function (data) {
+                        alert(data.message)
+                    },
+                    dataType: "html"
+                });
+
+                return false;
+            });
+
+        });
+
+        function deleteTask(id, btn) {
+
+            if (!confirm("Czy na pewno chcesz usunąć zadanie?"))
+                return;
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Delete", "Task")",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (data) {
+                    alert(data.message)
+                },
+                dataType: "json"
+            });
+
+        }
+
+        function finishTask(id, btn) {
+
+            if (!confirm("Czy na pewno chcesz oznaczyć zadanie jako zrealizowane?"))
+                return;
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Finish", "Task")",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (data) {
+                    alert(data.message)
+                },
+                dataType: "json"
+            });
+        }
+
+    </script>
+}
