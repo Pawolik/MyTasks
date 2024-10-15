@@ -14,16 +14,17 @@
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(x => x.Task.Id)
+    @Html.HiddenFor(x => x.Task.UserId)
 
     <div class="form-group">
         @Html.LabelFor(x => x.Task.Title)
-        @Html.TextBoxFor(x => x.Task.Title, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.TextBoxFor(x => x.Task.Title, new { @class = "form-control", autofocus = "autofocus", })
         @Html.ValidationMessageFor(x => x.Task.Title)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(x => x.Task.Description)
-        @Html.TextBoxFor(x => x.Task.Description, new { @class = "form-control", })
+        @Html.TextBoxFor(x => x.Task.Description, new { @class = "form-control",})
         @Html.ValidationMessageFor(x => x.Task.Description)
     </div>
 

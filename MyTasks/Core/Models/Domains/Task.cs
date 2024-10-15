@@ -28,7 +28,7 @@ namespace MyTasks.Core.Models.Domains
         public bool IsExecuted { get; set; }
         public string UserId { get; set; }
 
-        public Category Category { get; set; }
-        public ApplicationUser User { get; set; }
+        public Category? Category { get; set; } 
+        public ApplicationUser? User { get; set; }
     }
 }
