@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyTasks.Core;
 using MyTasks.Core.Models.Domains;
+using MyTasks.Core.Service;
 using Task = MyTasks.Core.Models.Domains.Task;
 
 namespace MyTasks.Persistance.Services
 {
-    public class TaskService
+    public class TaskService : ITaskService
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TaskService(UnitOfWork unitOfWork)
+        public TaskService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

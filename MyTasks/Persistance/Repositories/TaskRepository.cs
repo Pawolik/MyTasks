@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyTasks.Core;
 using MyTasks.Core.Models.Domains;
+using MyTasks.Core.Repositories;
 using Task = MyTasks.Core.Models.Domains.Task;
 
 namespace MyTasks.Persistance.Repositories
 {
-    public class TaskRepository
+    public class TaskRepository : ITaskRepository
     {
-        private ApplicationDbContext _context;
-        public TaskRepository(ApplicationDbContext context)
+        private IApplicationDbContext _context;
+        public TaskRepository(IApplicationDbContext context)
         {
             _context = context;
         }
